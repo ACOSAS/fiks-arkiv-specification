@@ -1,6 +1,6 @@
 #generate-schema.ps1
 $xsd = 'C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\xsd.exe'
-xsd /c /p /nologo /n:Acos.Felles.Fiks.IO.Models.Schema.Fiks.V1 `
+& xsd /c /p /nologo /n:Acos.Felles.Fiks.IO.Models.Schema.Fiks.V1 `
     .\metadatakatalog.xsd `
     .\no.ks.fiks.arkiv.v1.arkivering.arkivmelding.xsd `
     .\arkivstruktur.xsd `
@@ -8,8 +8,8 @@ xsd /c /p /nologo /n:Acos.Felles.Fiks.IO.Models.Schema.Fiks.V1 `
     .\arkivstrukturMinimum.xsd `
     .\arkivstrukturNoekler.xsd `
     .\no.ks.fiks.arkiv.v1.innsyn.dokumentfil.hent.xsd `
-    .\no.ks.fiks.arkiv.v1.innsyn.journalpost.hent.xsd `
-    .\no.ks.fiks.arkiv.v1.innsyn.journalpost.hent.resultat.xsd `
+    .\no.ks.fiks.arkiv.v1.innsyn.registrering.hent.xsd `
+    .\no.ks.fiks.arkiv.v1.innsyn.registrering.hent.resultat.xsd `
     .\no.ks.fiks.arkiv.v1.innsyn.mappe.hent.xsd `
     .\no.ks.fiks.arkiv.v1.innsyn.mappe.hent.resultat.xsd `
     .\no.ks.fiks.arkiv.v1.innsyn.sok.xsd `
