@@ -3,25 +3,16 @@
 <xs:schema xmlns="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/mappe/hent/v1"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:n5mdk="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1"
-           xmlns:arkivstruktur="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivstruktur/v1"
            targetNamespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/mappe/hent/v1"
            elementFormDefault="qualified">
     <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1"
                schemaLocation="./metadatakatalog.xsd"/>
-    <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivstruktur/v1"
-               schemaLocation="./arkivstruktur.xsd"/>
 
     <xs:element name="mappeHent" type="mappeHent"/>
 
     <xs:complexType name="mappeHent">
         <xs:sequence>
-            <!-- hvis vi kan endre systemID til å være minOccurs="1" for returnert objekt i arkivmeldingKvittering så kan denne være alt man trenger? 
-			Eller kan man ikke garantere at den er unik?-->
-            <xs:element name="systemID" type="n5mdk:systemID" minOccurs="0"/>
-            <xs:element name="mappeID" type="n5mdk:mappeID" minOccurs="0"/>
-            <xs:element name="referanseEksternNoekkel" type="arkivstruktur:eksternNoekkel" minOccurs="0"/>
-            <!-- Er det enten referanseEksternNoekkel eller mappeID som kan identifisere en unik mappe?
-			Klarer vi å beskrive det at man trenger bare 1 av 2? -->
+            <xs:element name="referanseTilMappe" type="n5mdk:referanseTilMappe"/>
             <xs:element name="inkluder" type="inkluder" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>

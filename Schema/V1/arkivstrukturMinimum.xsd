@@ -16,7 +16,7 @@
 
     <xs:complexType name="klassifikasjonssystemMinimum">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="klassifikasjonssystemID" type="n5mdk:klassifikasjonssystemID"/>
             <xs:element name="klassifikasjonstype" type="n5mdk:klassifikasjonstype" minOccurs="0"/>
             <xs:element name="tittel" type="n5mdk:tittel"/>
         </xs:sequence>
@@ -24,7 +24,7 @@
 
     <xs:complexType name="klassifikasjon">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID" minOccurs="0"/>
+            <xs:element name="klassifikasjonID" type="n5mdk:klassifikasjonID" minOccurs="0"/>
             <xs:element name="klassifikasjonssystem" type="klassifikasjonssystemMinimum"/>
             <xs:element name="klasseID" type="n5mdk:klasseID"/>
             <xs:element name="tittel" type="n5mdk:tittel" minOccurs="0"/>
@@ -34,7 +34,6 @@
 
     <xs:complexType name="klasseMinimum">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
             <xs:element name="klasseID" type="n5mdk:klasseID"/>
             <xs:element name="tittel" type="n5mdk:tittel"/>
             <xs:element name="skjerming" type="skjermingMinimum" minOccurs="0"/>
@@ -47,16 +46,13 @@
         <xs:sequence>
             <xs:element name="systemID" type="n5mdk:systemID"/>
             <xs:element name="mappeID" type="n5mdk:mappeID"/>
+            <xs:element name="referanseForeldermappe" type="n5mdk:referanseTilMappe" minOccurs="0"/>
             <xs:element name="tittel" type="n5mdk:tittel"/>
             <xs:element name="offentligTittel" type="n5mdk:offentligTittel" minOccurs="0"/>
             <xs:element name="skjerming" type="skjermingMinimum" minOccurs="0"/>
             <xs:element name="gradering" type="graderingMinimum" minOccurs="0"/>
             <xs:element name="klassifikasjon" type="klassifikasjon" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="referanseEksternNoekkel" type="eksternNoekkel" minOccurs="0"/>
-            <xs:choice>
-                <xs:element name="mappe" type="mappeMinimum" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="registrering" type="registreringMinimum" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:choice>
+            <xs:element name="referanseEksternNoekkel" type="n5mdk:eksternNoekkel" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -101,6 +97,21 @@
                     <xs:element name="journalstatus" type="n5mdk:journalstatus"/>
                     <xs:element name="journaldato" type="n5mdk:journaldato"/>
                     <xs:element name="dokumentetsDato" type="n5mdk:dokumentetsDato" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="journalpostMedSaksmappeMinimum">
+        <xs:complexContent>
+            <xs:extension base="journalpostMinimum">
+                <xs:sequence>
+                    <xs:element name="saksaar" type="n5mdk:saksaar"/>
+                    <xs:element name="sakssekvensnummer" type="n5mdk:sakssekvensnummer"/>
+                    <xs:element name="saksdato" type="n5mdk:saksdato"/>
+                    <xs:element name="administrativEnhet" type="n5mdk:administrativEnhet"/>
+                    <xs:element name="saksansvarlig" type="n5mdk:saksansvarlig"/>
+                    <xs:element name="saksstatus" type="n5mdk:saksstatus"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -155,13 +166,6 @@
             <xs:element name="gradertAv" type="n5mdk:gradertAv"/>
             <xs:element name="nedgraderingsdato" type="n5mdk:nedgraderingsdato" minOccurs="0"/>
             <xs:element name="nedgradertAv" type="n5mdk:nedgradertAv" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="eksternNoekkel">
-        <xs:sequence>
-            <xs:element name="fagsystem" type="n5mdk:fagsystem"/>
-            <xs:element name="noekkel" type="n5mdk:noekkel"/>
         </xs:sequence>
     </xs:complexType>
 
