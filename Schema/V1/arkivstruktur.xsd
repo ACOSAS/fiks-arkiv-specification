@@ -208,6 +208,11 @@
                     <xs:element name="utlaantDato" type="n5mdk:utlaantDato" minOccurs="0"/>
                     <xs:element name="utlaantTil" type="n5mdk:utlaantTil" minOccurs="0"/>
                     <xs:element name="presedens" type="presedens" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="matrikkelnummer" type="matrikkelnummer" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="byggident" type="byggident" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="planident" type="planident" minOccurs="0"/>
+                    <xs:element name="punkt" type="punkt" minOccurs="0"/>
+                    <xs:element name="adresse" type="adresse" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -344,7 +349,11 @@
         <xs:sequence>
             <xs:element name="korrespondansepartID" type="n5mdk:korrespondansepartID"/>
             <xs:element name="korrespondanseparttype" type="n5mdk:korrespondanseparttype"/>
-            <xs:element name="erBehandlingsansvarlig" type="xs:boolean"/>
+            <xs:element name="erBehandlingsansvarlig" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Default verdi skal være false for erBehandlingsansvarlig</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="korrespondansepartNavn" type="n5mdk:korrespondansepartNavn"/>
             <xs:element name="postadresse" type="n5mdk:postadresse" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="postnummer" type="n5mdk:postnummer" minOccurs="0"/>
@@ -527,7 +536,7 @@
             <xs:element name="tilgangsrestriksjon" type="n5mdk:tilgangsrestriksjon"/>
             <xs:element name="skjermingshjemmel" type="n5mdk:skjermingshjemmel"/>
             <xs:element name="skjermingOpphoererDato" type="n5mdk:skjermingOpphoererDato" minOccurs="0"/>
-            <xs:element name="skjermingOpphoererAksjon" type="n5mdk:kode" minOccurs="0"/>
+            <xs:element name="skjermingOpphoererAksjon" type="n5mdk:skjermingOpphoererAksjon" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -583,4 +592,42 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="matrikkelnummer">
+        <xs:sequence>
+            <xs:element name="kommunenummer" type="n5mdk:kommunenummer"/>
+            <xs:element name="gardsnummer" type="n5mdk:gardsnummer"/>
+            <xs:element name="bruksnummer" type="n5mdk:bruksnummer"/>
+            <xs:element name="festenummer" type="n5mdk:festenummer" minOccurs="0"/>
+            <xs:element name="seksjonsnummer" type="n5mdk:seksjonsnummer" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="byggident">
+        <xs:sequence>
+            <xs:element name="bygningsnummer" type="n5mdk:bygningsnummer"/>
+            <xs:element name="endringsloepenummer" type="n5mdk:endringsloepenummer" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="planident">
+        <xs:sequence>
+            <xs:element name="planidentifikasjon" type="n5mdk:planidentifikasjon"/>
+            <xs:choice minOccurs="0">
+                <xs:element name="kommunenummer" minOccurs="0" type="n5mdk:kommunenummer"/>
+                <xs:element name="fylkesnummer" minOccurs="0" type="n5mdk:fylkesnummer"/>
+                <xs:element name="landkode" minOccurs="0" type="n5mdk:landkode"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="punkt">
+        <xs:sequence>
+            <xs:element name="punktID" type="n5mdk:punktID" minOccurs="0"/>
+            <xs:element name="koordinatsystem" type="n5mdk:koordinatsystem"/>
+            <xs:element name="x" type="n5mdk:x"/>
+            <xs:element name="y" type="n5mdk:y"/>
+            <xs:element name="z" type="n5mdk:z" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
 </xs:schema>

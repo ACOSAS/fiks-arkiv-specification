@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmeldingoppdatering/v1"
+<xs:schema xmlns="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/oppdater/v1"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:n5mdk="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1"
-           xmlns:arkivmelding="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/v1"
-           targetNamespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmeldingoppdatering/v1"
+           xmlns:arkivmelding="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/opprett/v1"
+           targetNamespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/oppdater/v1"
            elementFormDefault="qualified">
     <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1" schemaLocation="./metadatakatalog.xsd"/>
-    <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/v1" schemaLocation="./no.ks.fiks.arkiv.v1.arkivering.arkivmelding.xsd"/>
+    <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/opprett/v1" schemaLocation="./no.ks.fiks.arkiv.v1.arkivering.arkivmelding.opprett.xsd"/>
     
     <xs:element name="arkivmeldingOppdatering" type="arkivmeldingOppdatering"/>
 
@@ -16,7 +16,7 @@
             <xs:choice minOccurs="1" maxOccurs="1">
                 <xs:element name="mappeOppdateringer" type="mappeOppdatering" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="registreringOppdateringer" type="registreringOppdatering" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="dokumentbeskrivelseOppdatering" type="dokumentbeskrivelseOppdatering" minOccurs="0" />
+                <xs:element name="dokumentbeskrivelseOppdatering" type="dokumentbeskrivelseOppdatering" minOccurs="0" maxOccurs="unbounded" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -28,7 +28,6 @@
             <xs:element name="beskrivelse" type="n5mdk:beskrivelse" minOccurs="0"/>
             <xs:element name="skjerming" type="arkivmelding:skjerming" minOccurs="0"/>
             <xs:element name="gradering" type="arkivmelding:gradering" minOccurs="0"/>
-            <xs:element name="dokumentobjekt" type="arkivmelding:dokumentobjekt" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -59,7 +58,7 @@
                     <xs:element name="matrikkelnummerOppdateringer" type="matrikkelnummerOppdateringer" minOccurs="0"/>
                     <xs:element name="byggidentOppdateringer" type="byggidentOppdateringer" minOccurs="0"/>
                     <xs:element name="planidentOppdateringer" type="planidentOppdateringer" minOccurs="0"/>
-                    <xs:element name="punkt" type="arkivmelding:punkt" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="punktOppdateringer" type="punktOppdateringer" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -75,7 +74,7 @@
     
     <xs:complexType name="kryssreferanseOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="kryssreferanseID" type="n5mdk:kryssreferanseID"/>
             <xs:element name="referanseTilKlasse" type="n5mdk:referanseTilKlasse" minOccurs="0"/>
             <xs:element name="referanseTilMappe" type="n5mdk:referanseTilMappe" minOccurs="0"/>
             <xs:element name="referanseTilRegistrering" type="n5mdk:referanseTilRegistrering" minOccurs="0"/>
@@ -100,7 +99,7 @@
 
     <xs:complexType name="punktOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="punktID" type="n5mdk:punktID"/>
             <xs:element name="koordinatsystem" type="n5mdk:koordinatsystem" minOccurs="0"/>
             <xs:element name="x" type="n5mdk:x" minOccurs="0"/>
             <xs:element name="y" type="n5mdk:y" minOccurs="0"/>
@@ -110,7 +109,7 @@
 
     <xs:complexType name="punktSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="punktID" type="n5mdk:punktID"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -200,7 +199,7 @@
 
     <xs:complexType name="korrespondansepartOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="korrespondansepartID" type="n5mdk:korrespondansepartID"/>
             <xs:element name="korrespondanseparttype" type="n5mdk:korrespondanseparttype" minOccurs="0"/>
             <xs:element name="korrespondansepartNavn" type="n5mdk:korrespondansepartNavn" minOccurs="0"/>
             <xs:choice minOccurs="0">
@@ -225,7 +224,7 @@
 
     <xs:complexType name="korrespondansepartSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="korrespondansepartID" type="n5mdk:korrespondansepartID"/>
         </xs:sequence>
     </xs:complexType>
     
@@ -239,7 +238,7 @@
 
     <xs:complexType name="merknadOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="merknadID" type="n5mdk:merknadID"/>
             <xs:element name="merknadstekst" type="n5mdk:merknadstekst" minOccurs="0"/>
             <xs:element name="merknadstype" type="n5mdk:merknadstype" minOccurs="0"/>
             <xs:element name="merknadsdato" type="n5mdk:merknadsdato" minOccurs="0"/>
@@ -250,7 +249,7 @@
 
     <xs:complexType name="merknadSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="merknadID" type="n5mdk:merknadID"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -264,7 +263,7 @@
     
     <xs:complexType name="klassifikasjonOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="klassifikasjonssystemID" type="n5mdk:klassifikasjonssystemID"/>
             <xs:element name="klasseID" type="n5mdk:klasseID" minOccurs="0"/>
             <xs:element name="tittel" type="n5mdk:tittel" minOccurs="0"/>
         </xs:sequence>
@@ -272,7 +271,7 @@
 
     <xs:complexType name="klassifikasjonSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="klassifikasjonssystemID" type="n5mdk:klassifikasjonssystemID"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -301,10 +300,9 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- Trengs denne? Eller skal man bare kunne legge til ny og slette? -->
     <xs:complexType name="byggidentOppdatering">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="opprinneligBygningsnummer" type="n5mdk:bygningsnummer"/>
             <xs:element name="bygningsnummer" type="n5mdk:bygningsnummer" minOccurs="0"/>
             <xs:element name="endringsloepenummer" type="n5mdk:endringsloepenummer" minOccurs="0"/>
         </xs:sequence>
@@ -312,7 +310,7 @@
 
     <xs:complexType name="byggidentSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="bygningsnummer" type="n5mdk:bygningsnummer"/>
         </xs:sequence>
     </xs:complexType>
     

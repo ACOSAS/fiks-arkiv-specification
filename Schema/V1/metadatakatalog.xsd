@@ -130,6 +130,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="punktID">
+    <xs:annotation>
+      <xs:documentation>M00...</xs:documentation><!-- TODO -->
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="klassifikasjonID">
     <xs:annotation>
       <xs:documentation>M00...</xs:documentation><!-- TODO -->
@@ -296,6 +305,7 @@
     <xs:annotation>
       <xs:documentation>M051</xs:documentation>
       <xs:documentation>Fiks-arkiv: endret datatypen fra en xs:string til en egen kode datatype som inneholder verdi og beskrivelse</xs:documentation>
+      <xs:documentation>Eksempel kodeliste (kode:beskrivelse) = A:Aktiv periode, O:Overlappingsperiode, P:Avsluttet periode, U:Uaktuelle mapper</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="kode"/>
@@ -306,6 +316,7 @@
     <xs:annotation>
       <xs:documentation>M052</xs:documentation>
       <xs:documentation>Fiks-arkiv: endret datatypen fra en xs:string til en egen kode datatype som inneholder verdi og beskrivelse</xs:documentation>
+      <xs:documentation>Eksempel kodeliste (kode:beskrivelse) = B:Under behandling, A:Avsluttet, U:Utgår, R:Opprettet av saksbehandler, S:Avsluttet av saksbehandler, P:Unntatt prosesstyring, F:Ferdig fra saksbehandler</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="kode"/>
@@ -368,6 +379,7 @@
     <xs:annotation>
       <xs:documentation>M083</xs:documentation>
       <xs:documentation>Fiks-arkiv: endret datatypen fra en xs:string til en egen kode datatype som inneholder verdi og beskrivelse</xs:documentation>
+      <xs:documentation>Eksempel kodeliste (kode:beskrivelse) = SØKNAD:Søknad, MELDING:Melding, KORR:Korrespondanse, KART:Kart, FOTO:Foto, TEGNING:Tegning, ANSVKONTO:Ansvar og kontroll, TILSYN:Tilsyn, AVTALE:Avtale, VEDTAK:Vedtak, FERDIGATTEST:Ferdigattest </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="kode"/>
@@ -427,6 +439,16 @@
   <xs:complexType name="slettingstype">
     <xs:annotation>
       <xs:documentation>M089</xs:documentation>
+      <xs:documentation>Fiks-arkiv: endret datatypen fra en xs:string til en egen kode datatype som inneholder verdi og beskrivelse</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="kode"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="skjermingOpphoererAksjon">
+    <xs:annotation>
+      <xs:documentation>M090</xs:documentation>
       <xs:documentation>Fiks-arkiv: endret datatypen fra en xs:string til en egen kode datatype som inneholder verdi og beskrivelse</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -1722,7 +1744,8 @@
 
   <xs:complexType name="kode">
     <xs:annotation>
-      <xs:documentation>M4..</xs:documentation>
+      <xs:documentation>FIKS-ARKIV-001</xs:documentation>
+      <xs:documentation>Består av kode og beskrivelse. Elementet kode er en kort identifikator mens beskrivelse kan være en lengre tekst som beskriver koden. F.eks. kode=F og beskrivelse=Faktura</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="kode" type="xs:string"/>

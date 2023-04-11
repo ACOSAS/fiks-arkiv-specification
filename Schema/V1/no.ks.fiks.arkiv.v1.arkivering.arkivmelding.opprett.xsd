@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/v1"
+<xs:schema xmlns="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/opprett/v1"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:n5mdk="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1"
-           targetNamespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/v1"
+           targetNamespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/arkivmelding/opprett/v1"
            elementFormDefault="qualified">
     <xs:import namespace="https://ks-no.github.io/standarder/fiks-protokoll/fiks-arkiv/metadatakatalog/v1"
                schemaLocation="./metadatakatalog.xsd"/>
 
     <xs:element name="arkivmelding" type="arkivmelding"/>
 
-    <!-- TODO: fix mixed value, <xs:complexType name="arkivmelding" mixed="true">-->
     <xs:complexType name="arkivmelding">
         <xs:sequence>
             <xs:element name="system" type="xs:string"/>
+            <xs:element name="regel" type="xs:string" minOccurs="0"/>
             <xs:element name="tidspunkt" type="xs:dateTime"/>
             <xs:element name="antallFiler" type="xs:int"/>
             <xs:choice>
@@ -104,6 +104,7 @@
 
     <xs:complexType name="klassifikasjonssystem">
         <xs:sequence>
+            <xs:element name="klassifikasjonssystemID" type="n5mdk:klassifikasjonssystemID" minOccurs="0"/>
             <xs:element name="klassifikasjonstype" type="n5mdk:klassifikasjonstype" minOccurs="0"/>
             <xs:element name="tittel" type="n5mdk:tittel"/>
             <xs:element name="beskrivelse" type="n5mdk:beskrivelse" minOccurs="0"/>
@@ -144,7 +145,7 @@
             <xs:element name="kryssreferanse" type="kryssreferanse" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="korrespondansepart" type="korrespondansepart" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="klassifikasjon" type="klassifikasjon" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="referanseEksternNoekkel" type="n5mdk:eksternNoekkel"/>
+            <xs:element name="referanseEksternNoekkel" type="n5mdk:eksternNoekkel" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -156,7 +157,7 @@
                     <xs:element name="journalsekvensnummer" type="n5mdk:journalsekvensnummer" minOccurs="0"/>
                     <xs:element name="journalpostnummer" type="n5mdk:journalpostnummer" minOccurs="0"/>
                     <xs:element name="journalposttype" type="n5mdk:journalposttype"/>
-                    <xs:element name="journalstatus" type="n5mdk:journalstatus"/>
+                    <xs:element name="journalstatus" type="n5mdk:journalstatus" minOccurs="0"/>
                     <xs:element name="journaldato" type="n5mdk:journaldato" minOccurs="0"/>
                     <xs:element name="dokumentetsDato" type="n5mdk:dokumentetsDato" minOccurs="0"/>
                     <xs:element name="mottattDato" type="n5mdk:mottattDato" minOccurs="0"/>
@@ -169,7 +170,7 @@
                     <xs:element name="journalenhet" type="n5mdk:journalenhet" minOccurs="0"/>
                     <xs:element name="dokumentflyt" type="dokumentflyt" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="presedens" type="presedens" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="avskrivningsdato" type="n5mdk:avskrivningsdato"/>
+                    <xs:element name="avskrivningsdato" type="n5mdk:avskrivningsdato" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -196,8 +197,8 @@
     <xs:complexType name="dokumentbeskrivelse">
         <xs:sequence>
             <xs:element name="systemID" type="n5mdk:systemID" minOccurs="0"/>
-            <xs:element name="dokumenttype" type="n5mdk:dokumenttype"/>
-            <xs:element name="dokumentstatus" type="n5mdk:dokumentstatus"/>
+            <xs:element name="dokumenttype" type="n5mdk:dokumenttype" minOccurs="0"/>
+            <xs:element name="dokumentstatus" type="n5mdk:dokumentstatus" minOccurs="0"/>
             <xs:element name="tittel" type="n5mdk:tittel"/>
             <xs:element name="beskrivelse" type="n5mdk:beskrivelse" minOccurs="0"/>
             <xs:element name="forfatter" type="n5mdk:forfatter" minOccurs="0" maxOccurs="unbounded"/>
@@ -221,15 +222,23 @@
     <xs:complexType name="dokumentobjekt">
         <xs:sequence>
             <xs:element name="systemID" type="n5mdk:systemID" minOccurs="0"/>
-            <xs:element name="versjonsnummer" type="n5mdk:versjonsnummer"/>
-            <xs:element name="variantformat" type="n5mdk:variantformat"/>
-            <xs:element name="format" type="n5mdk:format"/>
+            <xs:element name="versjonsnummer" type="n5mdk:versjonsnummer" minOccurs="0"/>
+            <xs:element name="variantformat" type="n5mdk:variantformat" minOccurs="0"/>
+            <xs:element name="format" type="n5mdk:format" minOccurs="0"/>
             <xs:element name="formatDetaljer" type="n5mdk:formatDetaljer" minOccurs="0"/>
             <xs:element name="mimeType" type="xs:string" minOccurs="0"/>
             <xs:element name="opprettetDato" type="n5mdk:opprettetDato" minOccurs="0"/>
             <xs:element name="opprettetAv" type="n5mdk:opprettetAv" minOccurs="0"/>
-            <xs:element name="filnavn" type="xs:string"/>
-            <xs:element name="referanseDokumentfil" type="n5mdk:referanseDokumentfil"/>
+            <xs:element name="filnavn" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Det opprinnelige filnavnet som gjerne skal brukes hvis filen lastes ned. Kan inneholde alle lovlige tegn for filnavn. Egnet også for visning.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="referanseDokumentfil" type="n5mdk:referanseDokumentfil" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>URL som kan brukes for å hente filen. Vil normalt ikke inneholde tegn som komma, æøå etc. som gjerne er med i filnavn.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="sjekksum" type="n5mdk:sjekksum" minOccurs="0"/>
             <xs:element name="sjekksumAlgoritme" type="n5mdk:sjekksumAlgoritme" minOccurs="0"/>
             <xs:element name="filstoerrelse" type="n5mdk:filstoerrelse" minOccurs="0"/>
@@ -262,7 +271,11 @@
         <xs:sequence>
             <xs:element name="korrespondansepartID" type="n5mdk:korrespondansepartID" minOccurs="0"/>
             <xs:element name="korrespondanseparttype" type="n5mdk:korrespondanseparttype"/>
-            <xs:element name="erBehandlingsansvarlig" type="xs:boolean"/>
+            <xs:element name="erBehandlingsansvarlig" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Default verdi skal være false for erBehandlingsansvarlig</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="korrespondansepartNavn" type="n5mdk:korrespondansepartNavn"/>
             <xs:choice minOccurs="0">
                 <xs:element name="organisasjonid" minOccurs="0" type="n5mdk:organisasjonid"/>
@@ -378,7 +391,7 @@
             <xs:element name="tilgangsrestriksjon" type="n5mdk:tilgangsrestriksjon"/>
             <xs:element name="skjermingshjemmel" type="n5mdk:skjermingshjemmel"/>
             <xs:element name="skjermingOpphoererDato" type="n5mdk:skjermingOpphoererDato" minOccurs="0"/>
-            <xs:element name="skjermingOpphoererAksjon" type="n5mdk:kode" minOccurs="0"/>
+            <xs:element name="skjermingOpphoererAksjon" type="n5mdk:skjermingOpphoererAksjon" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -431,6 +444,7 @@
 
     <xs:complexType name="kryssreferanse">
         <xs:sequence>
+            <xs:element name="kryssreferanseID" type="n5mdk:kryssreferanseID" minOccurs="0"/>
             <xs:element name="referanseTilKlasse" type="n5mdk:referanseTilKlasse" minOccurs="0"/>
             <xs:element name="referanseTilMappe" type="n5mdk:referanseTilMappe" minOccurs="0"/>
             <xs:element name="referanseTilRegistrering" type="n5mdk:referanseTilRegistrering" minOccurs="0"/>
