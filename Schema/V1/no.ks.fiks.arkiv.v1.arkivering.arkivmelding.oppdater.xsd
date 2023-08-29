@@ -21,7 +21,7 @@
             <xs:choice minOccurs="1" maxOccurs="1">
                 <xs:element name="mappeOppdateringer" type="mappeOppdatering" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="registreringOppdateringer" type="registreringOppdatering" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="dokumentbeskrivelseOppdatering" type="dokumentbeskrivelseOppdatering" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="dokumentbeskrivelseOppdateringer" type="dokumentbeskrivelseOppdatering" minOccurs="0" maxOccurs="unbounded" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -80,7 +80,6 @@
     <xs:complexType name="kryssreferanseOppdatering">
         <xs:sequence>
             <xs:element name="kryssreferanseID" type="n5mdk:kryssreferanseID"/>
-            <xs:element name="referanseTilKlasse" type="n5mdk:referanseTilKlasse" minOccurs="0"/>
             <xs:element name="referanseTilMappe" type="n5mdk:referanseTilMappe" minOccurs="0"/>
             <xs:element name="referanseTilRegistrering" type="n5mdk:referanseTilRegistrering" minOccurs="0"/>
             <xs:element name="referanseTilDokumentbeskrivelse" type="n5mdk:referanseTilDokumentbeskrivelse"
@@ -90,7 +89,7 @@
     
     <xs:complexType name="kryssreferanseSlett">
         <xs:sequence>
-            <xs:element name="systemID" type="n5mdk:systemID"/>
+            <xs:element name="kryssreferanseID" type="n5mdk:kryssreferanseID"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -122,23 +121,7 @@
         <xs:sequence>
             <xs:element name="oppdatering" type="partOppdatering" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="slett" type="partSlett" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="ny" type="part" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="part">
-        <xs:sequence>
-            <xs:element name="partID" type="n5mdk:partID" minOccurs="0"/>
-            <xs:element name="partNavn" type="n5mdk:partNavn"/>
-            <xs:element name="partRolle" type="n5mdk:partRolle"/>
-            <xs:element name="postadresse" type="n5mdk:postadresse" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="postnummer" type="n5mdk:postnummer" minOccurs="0"/>
-            <xs:element name="poststed" type="n5mdk:poststed" minOccurs="0"/>
-            <xs:element name="land" type="n5mdk:land" minOccurs="0"/>
-            <xs:element name="epostadresse" type="n5mdk:epostadresse" minOccurs="0"/>
-            <xs:element name="telefonnummer" type="n5mdk:telefonnummer" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="kontaktperson" type="n5mdk:kontaktperson" minOccurs="0"/>
-            <xs:element name="virksomhetsspesifikkeMetadata" type="xs:anyType" minOccurs="0"/>
+            <xs:element name="ny" type="arkivmelding:part" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -268,9 +251,9 @@
     
     <xs:complexType name="klassifikasjonOppdatering">
         <xs:sequence>
-            <xs:element name="klassifikasjonssystemID" type="n5mdk:klassifikasjonssystemID"/>
-            <xs:element name="klasseID" type="n5mdk:klasseID" minOccurs="0"/>
+            <xs:element name="referanseTilKlassifikasjon" type="n5mdk:referanseTilKlassifikasjon"/>
             <xs:element name="tittel" type="n5mdk:tittel" minOccurs="0"/>
+            <xs:element name="erSkjermet" type="n5mdk:erSkjermet" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
