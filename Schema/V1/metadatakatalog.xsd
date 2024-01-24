@@ -579,29 +579,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="referanseTilJournalpost">
-    <xs:annotation>
-      <xs:documentation>Endret (fiks-arkiv):  nytt felt som inneholder forskjellige id'er som kan identifisere en journalpost</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="systemID" type="systemID" minOccurs="0"/>
-      <xs:element name="registreringsID" type="registreringsID" minOccurs="0"/>
-      <xs:element name="journalnummer" type="journalnummer" minOccurs="0"/>
-      <xs:element name="saksJournalpostnummer" type="saksJournalpostnummer" minOccurs="0"/>
-      <xs:element name="referanseEksternNoekkel" type="eksternNoekkel" minOccurs="0" maxOccurs="1"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="referanseTilKlassifikasjon">
-    <xs:annotation>
-      <xs:documentation>Endret (fiks-arkiv):  nytt felt som inneholder forskjellige id'er som kan identifisere en klassifikasjon</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="klassifikasjonssystemID" type="klassifikasjonssystemID"/>
-      <xs:element name="klasseID" type="klasseID"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:simpleType name="referanseAvskrivesAvJournalpost">
     <xs:annotation>
       <xs:documentation>M215</xs:documentation>
@@ -663,6 +640,31 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element name="systemID" type="systemID" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="referanseTilKlassifikasjon">
+    <xs:annotation>
+      <xs:documentation>M226</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv):  nytt felt som inneholder forskjellige id'er som kan identifisere en klassifikasjon</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="klassifikasjonssystemID" type="klassifikasjonssystemID"/>
+      <xs:element name="klasseID" type="klasseID"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="referanseTilJournalpost">
+    <xs:annotation>
+      <xs:documentation>M227</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv):  nytt felt som inneholder forskjellige id'er som kan identifisere en journalpost</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="systemID" type="systemID" minOccurs="0"/>
+      <xs:element name="registreringsID" type="registreringsID" minOccurs="0"/>
+      <xs:element name="journalnummer" type="journalnummer" minOccurs="0"/>
+      <xs:element name="saksJournalpostnummer" type="saksJournalpostnummer" minOccurs="0"/>
+      <xs:element name="referanseEksternNoekkel" type="eksternNoekkel" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -909,26 +911,27 @@
     <xs:restriction base="xs:double" />
   </xs:simpleType>
 
-  <xs:simpleType name="koordinatsystem">
+  <xs:complexType name="koordinatsystem">
     <xs:annotation>
       <xs:documentation>M327</xs:documentation>
-      <xs:documentation>Opprettet: GI Arkiv 2.0</xs:documentation>
+      <xs:documentation>Opprettet: GI Arkiv 2.0. Datatype kode</xs:documentation>
+      <xs:documentation>Kodeliste (kode:beskrivelse) = "EPSG:25832":"EUREF89 UTM sone 32", "EPSG:25833":"EUREF89 UTM sone 33", "EPSG:25835":"EUREF89 UTM sone 35", "EPSG:4258":"EUREF 89 Geografisk (ETRS 89) 2d"</xs:documentation>
     </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-    </xs:restriction>
-  </xs:simpleType>
+    <xs:complexContent>
+      <xs:extension base="kode"/>
+    </xs:complexContent>
+  </xs:complexType>
 
   <!-- M370-M399: Møtebehandling -->
 
-  <xs:simpleType name="utvalg">
+  <xs:complexType name="utvalg">
     <xs:annotation>
       <xs:documentation>M370</xs:documentation>
     </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-    </xs:restriction>
-  </xs:simpleType>
+    <xs:complexContent>
+      <xs:extension base="identifikatorer"/>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:simpleType name="moetested">
     <xs:annotation>
@@ -957,6 +960,91 @@
       <xs:extension base="kode"/>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="representerer">
+    <xs:annotation>
+      <xs:documentation>M374</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Ny datatype</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="identifikatorer"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="moetesaksBeskrivelse">
+    <xs:annotation>
+      <xs:documentation>M375</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt. Feltet tekstFormat er av typen kode med kodelisten:  no.ks.fiks.arkiv.v1.kodelister.tekstformat</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="tekstInnhold" type="xs:string"/>
+      <xs:element name="tekstFormat" type="kode"/>
+    </xs:sequence>    
+  </xs:complexType>
+
+  <xs:complexType name="behandlingsprotokoll">
+    <xs:annotation>
+      <xs:documentation>M376</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="tekstInnhold" type="xs:string"/>
+      <xs:element name="tekstFormat" type="kode"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="moeteStemme" final="restriction" >
+    <xs:annotation>
+      <xs:documentation>M377</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt. Feltet tekstFormat er av typen kode med kodelisten: </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ja" />
+      <xs:enumeration value="Nei" />
+      <xs:enumeration value="Blankt" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="moetedeltaker">
+    <xs:annotation>
+      <xs:documentation>M378</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt. Feltet tekstFormat er av typen kode med kodelisten: </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="identifikator" type="identifikatorer" minOccurs="0"/>
+      <xs:element name="funksjon" type="moetedeltakerFunksjon" minOccurs="0"/>
+      <xs:element name="representerer" type="representerer" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="moetedokumenttype">
+    <xs:annotation>
+      <xs:documentation>M379</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt av typen kode</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="kode"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="vedtaksdato">
+    <xs:annotation>
+      <xs:documentation>M379</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="slettEllerOppdater" final="restriction" >
+    <xs:annotation>
+      <xs:documentation>M380</xs:documentation>
+      <xs:documentation>Endret (fiks-arkiv): Nytt felt. </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Slett" />
+      <xs:enumeration value="Oppdater" />
+    </xs:restriction>
+  </xs:simpleType>
 
   <!-- M400-M449:	Korrespondanse -->
 

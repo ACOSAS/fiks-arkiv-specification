@@ -1,19 +1,22 @@
 @startuml
 
 class arkivmeldingKvittering {
-    +system : string
-    +tidspunkt : dateTime
-    +mappeKvittering : mappeKvittering[]
-    +registreringKvittering : registreringKvittering[]
+    +mappeKvittering : mappeKvittering
+    +mappeFeilet : feilmeldingBase
+    +registreringKvittering : registreringKvittering
+    +registreringFeilet : feilmeldingBase
 }
 class dokumentbeskrivelseKvittering {
     +systemID : systemID
     +opprettetDato : dateTime
     +opprettetAv : string
+    +dokumentnummer : int
     +dokumentobjekt : dokumentobjektKvittering[]
 }
 class dokumentobjektKvittering {
     +systemID : systemID
+    +versjonsnummer : int
+    +variantformat : variantformat
     +opprettetDato : dateTime
     +opprettetAv : string
 }
@@ -36,8 +39,11 @@ class mappeKvittering {
     +avsluttetDato : dateTime
     +avsluttetAv : string
     +referanseEksternNoekkel : eksternNoekkel
-    +mappeKvittering : mappeKvittering[]
-    +registreringKvittering : registreringKvittering[]
+    +opprettetEllerEksisterende : opprettetEllerEksisterende
+}
+enum opprettetEllerEksisterende {
+    Opprettet = Opprettet
+    Eksisterende = Eksisterende
 }
 class registreringKvittering {
     +systemID : systemID
@@ -48,6 +54,7 @@ class registreringKvittering {
     +dokumentbeskrivelseKvittering : dokumentbeskrivelseKvittering[]
     +registreringsID : string
     +referanseEksternNoekkel : eksternNoekkel
+    +opprettetEllerEksisterende : opprettetEllerEksisterende
 }
 class saksmappeKvittering {
     +saksaar : int

@@ -10,8 +10,10 @@ enum inkluder {
     moetedeltaker = moetedeltaker
 }
 class mappeHent {
+    +system : string
     +referanseTilMappe : referanseTilMappe
     +inkluder : inkluder[]
+    +spraak : string
 }
 
 @enduml

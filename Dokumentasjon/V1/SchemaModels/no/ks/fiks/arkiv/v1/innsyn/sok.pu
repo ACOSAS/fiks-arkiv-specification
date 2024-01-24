@@ -1,7 +1,7 @@
 @startuml
 
 class bbox {
-    +koordinatsystem : string
+    +koordinatsystem : koordinatsystem
     +nedreVenstre : bboxKoordinater
     +oevreHoeyre : bboxKoordinater
 }
@@ -326,10 +326,10 @@ enum saksmappeSorteringsfelt {
 }
 class sok {
     +system : string
-    +tidspunkt : dateTime
     +take : int
     +skip : int
     +sokdefinisjon : sokdefinisjon
+    +spraak : string
 }
 class sokVerdier {
     +stringvalues : stringvalues
