@@ -1,17 +1,64 @@
 @startuml
 left to right direction
+
 class adresse {
     +adresse : string
     +postnummer : string
     +poststed : string
 }
-class arkivmelding {
-    +system : string
-    +regel : string
-    +antallFiler : int
-    +mappe : mappe
-    +registrering : registrering
+class arkiv {
+    +systemID : systemID
+    +tittel : string
+    +beskrivelse : string
+    +arkivstatus : arkivstatus
+    +dokumentmedium : dokumentmedium
+    +opprettetDato : dateTime
+    +opprettetAv : string
+    +avsluttetDato : dateTime
+    +avsluttetAv : string
+    +arkivskaper : arkivskaper[]
+    +arkiv : arkiv[]
+    +arkivdel : arkivdel[]
 }
+arkiv -- arkivstatus
+arkiv -- dokumentmedium
+arkiv -- arkivskaper
+arkiv -- arkiv
+arkiv -- arkivdel
+
+class arkivdel {
+    +systemID : systemID
+    +tittel : string
+    +beskrivelse : string
+    +arkivdelstatus : arkivdelstatus
+    +dokumentmedium : dokumentmedium
+    +opprettetDato : dateTime
+    +opprettetAv : string
+    +avsluttetDato : dateTime
+    +avsluttetAv : string
+    +arkivperiodeStartDato : date
+    +arkivperiodeSluttDato : date
+    +referanseForloeper : string
+    +referanseArvtaker : string
+    +kassasjon : kassasjon
+    +utfoertKassasjon : utfoertKassasjon
+    +sletting : sletting
+    +skjerming : skjerming
+    +gradering : gradering
+    +klassifikasjonssystem : klassifikasjonssystem[]
+    +mappe : mappe[]
+    +registrering : registrering[]
+}
+arkivdel -- arkivdelstatus
+arkivdel -- dokumentmedium
+arkivdel -- kassasjon
+arkivdel -- utfoertKassasjon
+arkivdel -- sletting
+arkivdel -- skjerming
+arkivdel -- gradering
+arkivdel -- klassifikasjonssystem
+arkivdel -- mappe
+arkivdel -- registrering
 class arkivnotat {
     +dokumentetsDato : date
     +mottattDato : dateTime
@@ -22,13 +69,19 @@ class arkivnotat {
     +dokumentflyt : dokumentflyt[]
 }
 arkivnotat *- registrering
+arkivnotat -- dokumentflyt
+class arkivskaper {
+    +arkivskaperID : string
+    +arkivskaperNavn : string
+    +beskrivelse : string
+}
 class avskrivning {
     +avskrivningsdato : date
     +avskrevetAv : string
     +avskrivningsmaate : avskrivningsmaate
-    +referanseAvskrivesAvJournalpost : referanseTilJournalpost
-    +referanseAvskriverJournalpost : referanseTilJournalpost
+    +referanseAvskrivesAvJournalpost : string
 }
+avskrivning -- avskrivningsmaate
 class byggident {
     +bygningsnummer : int
     +endringsloepenummer : int
@@ -43,16 +96,35 @@ class dokumentbeskrivelse {
     +opprettetDato : dateTime
     +opprettetAv : string
     +dokumentmedium : dokumentmedium
+    +arkivdel : kode
     +tilknyttetRegistreringSom : tilknyttetRegistreringSom
     +dokumentnummer : int
     +tilknyttetDato : dateTime
     +tilknyttetAv : string
     +part : part[]
     +merknad : merknad[]
+    +kassasjon : kassasjon
+    +utfoertKassasjon : utfoertKassasjon
+    +sletting : sletting
     +skjerming : skjerming
     +gradering : gradering
+    +elektroniskSignatur : elektroniskSignatur
     +dokumentobjekt : dokumentobjekt[]
 }
+dokumentbeskrivelse -- dokumenttype
+dokumentbeskrivelse -- dokumentstatus
+dokumentbeskrivelse -- dokumentmedium
+dokumentbeskrivelse -- kode
+dokumentbeskrivelse -- tilknyttetRegistreringSom
+dokumentbeskrivelse -- part
+dokumentbeskrivelse -- merknad
+dokumentbeskrivelse -- kassasjon
+dokumentbeskrivelse -- utfoertKassasjon
+dokumentbeskrivelse -- sletting
+dokumentbeskrivelse -- skjerming
+dokumentbeskrivelse -- gradering
+dokumentbeskrivelse -- elektroniskSignatur
+dokumentbeskrivelse -- dokumentobjekt
 class dokumentflyt {
     +flytTil : string
     +flytFra : string
@@ -61,21 +133,36 @@ class dokumentflyt {
     +flytStatus : flytStatus
     +flytMerknad : string
 }
+dokumentflyt -- flytStatus
 class dokumentobjekt {
     +systemID : systemID
     +versjonsnummer : int
     +variantformat : variantformat
+    +filnavn : string
     +format : format
-    +formatDetaljer : string
     +mimeType : string
+    +formatDetaljer : string
     +opprettetDato : dateTime
     +opprettetAv : string
-    +filnavn : string
     +referanseDokumentfil : string
     +sjekksum : string
     +sjekksumAlgoritme : string
     +filstoerrelse : int
+    +elektroniskSignatur : elektroniskSignatur
+    +konvertering : konvertering[]
 }
+dokumentobjekt -- variantformat
+dokumentobjekt -- format
+dokumentobjekt -- elektroniskSignatur
+dokumentobjekt -- konvertering
+class elektroniskSignatur {
+    +elektroniskSignaturSikkerhetsnivaa : elektroniskSignaturSikkerhetsnivaa
+    +elektroniskSignaturVerifisert : elektroniskSignaturVerifisert
+    +verifisertDato : date
+    +verifisertAv : string
+}
+elektroniskSignatur -- elektroniskSignaturSikkerhetsnivaa
+elektroniskSignatur -- elektroniskSignaturVerifisert
 class gradering {
     +grad : grad
     +graderingsdato : dateTime
@@ -83,13 +170,7 @@ class gradering {
     +nedgraderingsdato : dateTime
     +nedgradertAv : string
 }
-class hendelseslogg {
-    +referanseArkivenhet : string
-    +beskrivelse : string
-    +hendelsestype : string
-    +hendelsesdato : dateTime
-    +utfortAv : string
-}
+gradering -- grad
 class journalpost {
     +journalaar : int
     +journalsekvensnummer : int
@@ -106,28 +187,91 @@ class journalpost {
     +journalenhet : string
     +dokumentflyt : dokumentflyt[]
     +presedens : presedens[]
+    +elektroniskSignatur : elektroniskSignatur
     +avskrivningsdato : date
 }
 journalpost *- registrering
+journalpost -- journalposttype
+journalpost -- journalstatus
+journalpost -- dokumentflyt
+journalpost -- presedens
+journalpost -- elektroniskSignatur
+class journalpostMedSaksmappe {
+    +saksaar : int
+    +sakssekvensnummer : int
+    +saksdato : date
+    +administrativEnhet : administrativEnhet
+    +saksansvarlig : saksansvarlig
+    +saksstatus : saksstatus
+}
+journalpostMedSaksmappe *- journalpost
+journalpostMedSaksmappe -- administrativEnhet
+journalpostMedSaksmappe -- saksansvarlig
+journalpostMedSaksmappe -- saksstatus
 class kassasjon {
     +kassasjonsvedtak : kassasjonsvedtak
     +kassasjonshjemmel : string
     +bevaringstid : int
     +kassasjonsdato : date
 }
+kassasjon -- kassasjonsvedtak
+class klasse {
+    +klasseID : string
+    +tittel : string
+    +beskrivelse : string
+    +noekkelord : string[]
+    +opprettetDato : dateTime
+    +opprettetAv : string
+    +avsluttetDato : dateTime
+    +avsluttetAv : string
+    +kryssreferanse : kryssreferanse[]
+    +kassasjon : kassasjon
+    +skjerming : skjerming
+    +gradering : gradering
+    +klasse : klasse[]
+    +mappe : mappe[]
+    +registrering : registrering[]
+}
+klasse -- kryssreferanse
+klasse -- kassasjon
+klasse -- skjerming
+klasse -- gradering
+klasse -- klasse
+klasse -- mappe
+klasse -- registrering
 class klassifikasjon {
+    +klassifikasjonID : string
     +klassifikasjonssystemID : string
     +klasseID : string
     +tittel : string
     +erSkjermet : boolean
+}
+class klassifikasjonssystem {
+    +klassifikasjonssystemID : string
+    +klassifikasjonstype : klassifikasjonstype
+    +tittel : string
+    +beskrivelse : string
+    +opprettetDato : dateTime
+    +opprettetAv : string
+    +avsluttetDato : dateTime
+    +avsluttetAv : string
+    +klasse : klasse[]
+}
+klassifikasjonssystem -- klassifikasjonstype
+klassifikasjonssystem -- klasse
+class konvertering {
+    +konvertertDato : dateTime
+    +konvertertAv : string
+    +konvertertFraFormat : string
+    +konvertertTilFormat : string
+    +konverteringsverktoey : string
+    +konverteringskommentar : string
 }
 class korrespondansepart {
     +korrespondansepartID : string
     +korrespondanseparttype : korrespondanseparttype
     +erBehandlingsansvarlig : boolean
     +korrespondansepartNavn : string
-    +organisasjonid : string
-    +personid : string
     +postadresse : string[]
     +postnummer : string
     +poststed : string
@@ -137,18 +281,21 @@ class korrespondansepart {
     +kontaktperson : string
     +administrativEnhet : administrativEnhet
     +saksbehandler : saksbehandler
-    +erSkjermet : boolean
-    +erPersonnavn : string
-    +forsendelsesmaate : string
-    +deresReferanse : string
     +avskrivning : avskrivning[]
 }
+korrespondansepart -- korrespondanseparttype
+korrespondansepart -- administrativEnhet
+korrespondansepart -- saksbehandler
+korrespondansepart -- avskrivning
 class kryssreferanse {
     +kryssreferanseID : string
     +referanseTilMappe : referanseTilMappe
     +referanseTilRegistrering : referanseTilRegistrering
     +referanseTilDokumentbeskrivelse : referanseTilDokumentbeskrivelse
 }
+kryssreferanse -- referanseTilMappe
+kryssreferanse -- referanseTilRegistrering
+kryssreferanse -- referanseTilDokumentbeskrivelse
 class mappe {
     +systemID : systemID
     +mappeID : string
@@ -167,12 +314,28 @@ class mappe {
     +part : part[]
     +kryssreferanse : kryssreferanse[]
     +merknad : merknad[]
+    +kassasjon : kassasjon
     +skjerming : skjerming
     +gradering : gradering
     +klassifikasjon : klassifikasjon[]
     +referanseEksternNoekkel : eksternNoekkel
+    +mappe : mappe[]
+    +registrering : registrering[]
     +mappetype : kode
 }
+mappe -- referanseTilMappe
+mappe -- dokumentmedium
+mappe -- kode
+mappe -- part
+mappe -- kryssreferanse
+mappe -- merknad
+mappe -- kassasjon
+mappe -- skjerming
+mappe -- gradering
+mappe -- klassifikasjon
+mappe -- eksternNoekkel
+mappe -- mappe
+mappe -- registrering
 class matrikkelnummer {
     +kommunenummer : string
     +gardsnummer : int
@@ -188,10 +351,12 @@ class merknad {
     +merknadRegistrertAv : string
     +erSkjermet : boolean
 }
+merknad -- merknadstype
 class moetedokument {
     +moetedokumenttype : moetedokumenttype
 }
 moetedokument *- registrering
+moetedokument -- moetedokumenttype
 class moetemappe {
     +moetenummer : string
     +utvalg : utvalg
@@ -202,6 +367,8 @@ class moetemappe {
     +moetedeltaker : moetedeltaker[]
 }
 moetemappe *- mappe
+moetemappe -- utvalg
+moetemappe -- moetedeltaker
 class moetesak {
     +moetesakstype : moetesakstype
     +moetesaksaar : int
@@ -212,16 +379,15 @@ class moetesak {
     +vedtak : vedtak
 }
 moetesak *- registrering
-class organisasjonsID {
-    +identifikator : string
-    +landkode : string
-}
+moetesak -- moetesakstype
+moetesak -- administrativEnhet
+moetesak -- utredning
+moetesak -- moetesaksBeskrivelse
+moetesak -- vedtak
 class part {
     +partID : string
     +partNavn : string
     +partRolle : partRolle
-    +organisasjonID : organisasjonsID
-    +personID : personID
     +postadresse : string[]
     +postnummer : string
     +poststed : string
@@ -230,13 +396,8 @@ class part {
     +telefonnummer : string[]
     +kontaktperson : string
     +virksomhetsspesifikkeMetadata : anyType
-    +erSkjermet : boolean
-    +erPersonnavn : string
 }
-class personID {
-    +landkode : string
-    +identifikator : string
-}
+part -- partRolle
 class planident {
     +planidentifikasjon : string
     +kommunenummer : string
@@ -257,12 +418,15 @@ class presedens {
     +avsluttetAv : string
     +presedensStatus : presedensStatus
 }
+presedens -- presedensStatus
 class punkt {
+    +punktID : string
     +koordinatsystem : koordinatsystem
     +x : double
     +y : double
     +z : double
 }
+punkt -- koordinatsystem
 class registrering {
     +systemID : systemID
     +opprettetDato : dateTime
@@ -272,6 +436,7 @@ class registrering {
     +referanseForelderMappe : referanseTilMappe
     +arkivdel : kode
     +part : part[]
+    +kassasjon : kassasjon
     +skjerming : skjerming
     +gradering : gradering
     +dokumentbeskrivelse : dokumentbeskrivelse[]
@@ -289,6 +454,19 @@ class registrering {
     +klassifikasjon : klassifikasjon[]
     +referanseEksternNoekkel : eksternNoekkel
 }
+registrering -- referanseTilMappe
+registrering -- kode
+registrering -- part
+registrering -- kassasjon
+registrering -- skjerming
+registrering -- gradering
+registrering -- dokumentbeskrivelse
+registrering -- dokumentmedium
+registrering -- merknad
+registrering -- kryssreferanse
+registrering -- korrespondansepart
+registrering -- klassifikasjon
+registrering -- eksternNoekkel
 class saksmappe {
     +saksaar : int
     +sakssekvensnummer : int
@@ -305,17 +483,40 @@ class saksmappe {
     +adresse : adresse[]
 }
 saksmappe *- mappe
+saksmappe -- administrativEnhet
+saksmappe -- saksansvarlig
+saksmappe -- saksstatus
+saksmappe -- presedens
+saksmappe -- matrikkelnummer
+saksmappe -- byggident
+saksmappe -- planident
+saksmappe -- punkt
+saksmappe -- adresse
 class skjerming {
     +tilgangsrestriksjon : tilgangsrestriksjon
     +skjermingshjemmel : string
     +skjermingOpphoererDato : date
     +skjermingOpphoererAksjon : skjermingOpphoererAksjon
 }
+skjerming -- tilgangsrestriksjon
+skjerming -- skjermingOpphoererAksjon
+class sletting {
+    +slettingstype : slettingstype
+    +slettetDato : dateTime
+    +slettetAv : string
+}
+sletting -- slettingstype
+class utfoertKassasjon {
+    +kassertDato : dateTime
+    +kassertAv : string
+}
 class utredning {
     +saksbeskrivelse : moetesaksBeskrivelse
     +innstilling : moetesaksBeskrivelse
     +utredningsdokumenter : dokumentbeskrivelse[]
 }
+utredning -- moetesaksBeskrivelse
+utredning -- dokumentbeskrivelse
 class vedtak {
     +vedtakstekst : moetesaksBeskrivelse
     +votering : votering[]
@@ -323,10 +524,18 @@ class vedtak {
     +vedtaksdokumenter : dokumentbeskrivelse[]
     +dato : dateTime
 }
+vedtak -- moetesaksBeskrivelse
+vedtak -- votering
+vedtak -- behandlingsprotokoll
+vedtak -- dokumentbeskrivelse
+
 class votering {
     +moetedeltaker : moetedeltaker
     +stemme : moeteStemme
     +representerer : representerer
 }
+votering -- moetedeltaker
+votering -- moeteStemme
+votering -- representerer
 
 @enduml
