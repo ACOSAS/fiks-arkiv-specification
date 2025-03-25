@@ -67,8 +67,8 @@
                     <xs:element name="presedens" type="presedens" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="matrikkelnummer" type="matrikkelnummer" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="byggident" type="byggident" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="planident" type="planident" minOccurs="0"/>
-                    <xs:element name="punkt" type="punkt" minOccurs="0"/>
+                    <xs:element name="planident" type="planident" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="punkt" type="punkt" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="adresse" type="adresse" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
@@ -160,7 +160,11 @@
             <xs:element name="opprettetAv" type="n5mdk:opprettetAv" minOccurs="0"/>
             <xs:element name="dokumentmedium" type="n5mdk:dokumentmedium" minOccurs="0"/>
             <xs:element name="tilknyttetRegistreringSom" type="n5mdk:tilknyttetRegistreringSom"/>
-            <xs:element name="dokumentnummer" type="n5mdk:dokumentnummer" minOccurs="0"/>
+            <xs:element name="dokumentnummer" type="n5mdk:dokumentnummer" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Selv om "dokumentnummer" ikke er påkrevd, så er det viktig å sette der hvor man har flere dokumentbeskrivelser. "dokumentnummer" vil være det man knytter opp mot det man får tilbake i "dokumentbeskrivelseKvittering" i kvittering-melding</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="tilknyttetDato" type="n5mdk:tilknyttetDato" minOccurs="0"/>
             <xs:element name="tilknyttetAv" type="n5mdk:tilknyttetAv" minOccurs="0"/>
             <xs:element name="part" type="part" minOccurs="0" maxOccurs="unbounded"/>
@@ -168,6 +172,7 @@
             <xs:element name="skjerming" type="skjerming" minOccurs="0"/>
             <xs:element name="gradering" type="gradering" minOccurs="0"/>
             <xs:element name="dokumentobjekt" type="dokumentobjekt" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="referanseEksternNoekkel" type="n5mdk:eksternNoekkel" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -179,16 +184,24 @@
             <xs:element name="format" type="n5mdk:format" minOccurs="0"/>
             <xs:element name="formatDetaljer" type="n5mdk:formatDetaljer" minOccurs="0"/>
             <xs:element name="mimeType" type="xs:string" minOccurs="0"/>
-            <xs:element name="opprettetDato" type="n5mdk:opprettetDato" minOccurs="0"/>
-            <xs:element name="opprettetAv" type="n5mdk:opprettetAv" minOccurs="0"/>
+            <xs:element name="opprettetDato" type="n5mdk:opprettetDato" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Feltet er ikke påkrevd og det kan ikke garanteres at det blir tatt med i betraktning av arkivet. Arkivet kan velge å bruke eget og dermed vil det være det man får tilbake i kvitteringen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="opprettetAv" type="n5mdk:opprettetAv" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Feltet er ikke påkrevd og det kan ikke garanteres at det blir tatt med i betraktning av arkivet. Arkivet kan velge å bruke eget og dermed vil det være det man får tilbake i kvitteringen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="filnavn" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>Det opprinnelige filnavnet som gjerne skal brukes hvis filen lastes ned. Kan inneholde alle lovlige tegn for filnavn. Egnet også for visning.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="referanseDokumentfil" type="n5mdk:referanseDokumentfil" minOccurs="0">
+            <xs:element name="referanseDokumentfil" type="n5mdk:referanseDokumentfil">
                 <xs:annotation>
-                    <xs:documentation>Dette er enten filnavn slik filen heter i meldingen eller URL som kan brukes for å hente filen. Vil normalt ikke inneholde tegn som komma, æøå etc. som gjerne er med i filnavn. Dette filnavnet vil kunne være forskjellig fra "filnavn" attributtet i enkelte tilfeller, f.eks. hvor meldingen inneholder flere filer med samme navn.</xs:documentation>
+                    <xs:documentation>Dette er filnavn slik filen heter i meldingen. Vil normalt ikke inneholde tegn som komma, æøå etc. som gjerne er med i filnavn. Dette filnavnet vil kunne være forskjellig fra "filnavn" attributtet i enkelte tilfeller, f.eks. hvor meldingen inneholder flere filer med samme navn.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="sjekksum" type="n5mdk:sjekksum" minOccurs="0"/>
@@ -209,7 +222,7 @@
             <xs:element name="postadresse" type="n5mdk:postadresse" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="postnummer" type="n5mdk:postnummer" minOccurs="0"/>
             <xs:element name="poststed" type="n5mdk:poststed" minOccurs="0"/>
-            <xs:element name="land" type="n5mdk:land" minOccurs="0"/>
+            <xs:element name="landkode" type="n5mdk:landkode" minOccurs="0"/>
             <xs:element name="epostadresse" type="n5mdk:epostadresse" minOccurs="0"/>
             <xs:element name="telefonnummer" type="n5mdk:telefonnummer" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="kontaktperson" type="n5mdk:kontaktperson" minOccurs="0"/>
@@ -236,7 +249,7 @@
             <xs:element name="postadresse" type="n5mdk:postadresse" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="postnummer" type="n5mdk:postnummer" minOccurs="0"/>
             <xs:element name="poststed" type="n5mdk:poststed" minOccurs="0"/>
-            <xs:element name="land" type="n5mdk:land" minOccurs="0"/>
+            <xs:element name="landkode" type="n5mdk:landkode" minOccurs="0"/>
             <xs:element name="epostadresse" type="n5mdk:epostadresse" minOccurs="0"/>
             <xs:element name="telefonnummer" type="n5mdk:telefonnummer" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="kontaktperson" type="n5mdk:kontaktperson" minOccurs="0"/>
@@ -253,7 +266,7 @@
     <xs:complexType name="avskrivning">
         <xs:sequence>
             <xs:element name="avskrivningsdato" type="n5mdk:avskrivningsdato"/>
-            <xs:element name="avskrevetAv" type="n5mdk:avskrevetAv"/>
+            <xs:element name="avskrevetAv" type="n5mdk:saksbehandler"/>
             <xs:element name="avskrivningsmaate" type="n5mdk:avskrivningsmaate"/>
             <xs:element name="referanseAvskrivesAvJournalpost" type="n5mdk:referanseTilJournalpost" minOccurs="0"/>
             <xs:element name="referanseAvskriverJournalpost" type="n5mdk:referanseTilJournalpost" minOccurs="0"/>
@@ -300,6 +313,7 @@
 
     <xs:complexType name="punkt">
         <xs:sequence>
+            <xs:element name="punktID" type="n5mdk:punktID" minOccurs="0"/>
             <xs:element name="koordinatsystem" type="n5mdk:koordinatsystem"/>
             <xs:element name="x" type="n5mdk:x"/>
             <xs:element name="y" type="n5mdk:y"/>
